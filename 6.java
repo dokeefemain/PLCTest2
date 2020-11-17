@@ -3,29 +3,29 @@
 //<while_loop> --> 'while' '(' <boolexpr> ')' '{' <stmt>';'{<stmt>';'} '}'
 public class whileloop {
 	lex();
-	if(nextToken!=while_code) {
+	if(nextToken!='while') {
 		error();
 	}else {
 		lex();
-		if(nextToken!=LEFT_PAREN) {
+		if(nextToken!='(') {
 			error()
 		}else {
 			lex();
 			boolexpr();
-			if(nextToken!=RIGHT_PAREN) {
+			if(nextToken!=')') {
 				error();
 			}else {
 				lex();
-				if(nextToken!=LEFT_BRACKET) {
+				if(nextToken!='{') {
 					error();
 				}else {
 					lex();
 					stmt();
-					if(nextToken!=SEMICOLON) {
+					if(nextToken!=';') {
 						error();
 					}else{
                         lex();
-                        if(nextToken!=RIGHT_BRACKET){
+                        if(nextToken!='}'){
                             error();
                         }
                     }
@@ -42,28 +42,23 @@ public class whileloop {
 
 public class if {
 	lex();
-	if(nextToken!=if_code) {
+	if(nextToken!='if') {
 		error();
 	}else {
 		lex();
-		if(nextToken!=LEFT_PAREN) {
+		if(nextToken!='(') {
 			error()
 		}else {
 			lex();
 			boolexpr();
-			if(nextToken!=RIGHT_PAREN) {
+			if(nextToken!=')') {
 				error();
 			}else {
 				lex();
-				if(nextToken!=LEFT_BRACKET) {
-					error();
-				}else {
+				stmt();
+				if(nextToken=='else') {
 					lex();
 					stmt();
-					if(nextToken!=else_code) {
-						lex();
-                        stmt();
-					}
 				}
 			}
 		}
@@ -78,26 +73,26 @@ public class if {
 
 public class Mathematical(){
 	lex();
-	if(nextToken!=PLUS_CODE || nextToken!=MINUS_CODE){
+	if(nextToken!='+' || nextToken!='-'){
 		error();
 	}
 }
 public class A(){
 	lex();
-	if(nextToken!=DIVISION_CODE || nextToken!=MUL_CODE || nextToken!=MOD_CODE){
+	if(nextToken!='/' || nextToken!='*' || nextToken!='%'){
 		Mathematical();
 	}
 }
 public class B(){
-	if(nextToken!=NUM_CODE){
+	if(nextToken.isNaN()){
 			error();
 	}
 	else{
 		lex();
-		while(nextToken!=ENDOFEXPR_CODE){
+		while(nextToken!=null){
 			A();
 			lex();
-			if(nextToken!=NUM_CODE){
+			if(nextToken.isNaN()){
 				error();
 			}
 		}
@@ -118,7 +113,7 @@ public class stmt(){
 		error();
 	}else{
 		lex();
-		if(nextToken!=EQUAL_CODE){
+		if(nextToken!='='){
 			error();
 		}else{
 			A();
@@ -127,14 +122,14 @@ public class stmt(){
 }
 
 public class A(){
-	if(nextToken!=NUM_CODE || nextToken!=VAR_CODE){
+	if(nextToken.isNaN() || nextToken!=VAR_CODE){
 			error();
 	}else{
 		lex();
-		while(nextToken!=ENDOFEXPR_CODE){
+		while(nextToken!=null){
 			B();
 			lex();
-			if(nextToken!=NUM_CODE || nextToken!=VAR_CODE){
+			if(nextToken.isNaN() || nextToken!=VAR_CODE){
 				error();
 			}
 		}
@@ -143,14 +138,14 @@ public class A(){
 
 public class B(){
 	lex();
-	if(nextToken!=DIVISION_CODE || nextToken!=MUL_CODE || nextToken!=MOD_CODE){
+	if(nextToken!='/' || nextToken!='*' || nextToken!='%'){
 		C();
 	}
 }
 
 public class C(){
 	lex();
-	if(nextToken!=PLUS_CODE || nextToken!=MINUS_CODE){
+	if(nextToken!='+' || nextToken!='-'){
 		error();
 	}
 }
